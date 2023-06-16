@@ -1,0 +1,18 @@
+Kęstutis prašė įdėti kodą, jeigu kam reikia puslapiuoti HTML lentelę, o ne list'ą, čia paprastas pvz:
+```python
+{% include 'includes/paginator_nav.html' %}
+<table>
+    <tr>
+        <th>First header</th>
+        <th>Second header</th>
+        <th>Third header</th>
+    </tr>
+    {% for test_obj in test_obj_list %}
+    <tr>
+        <td>{{ test_obj.test1 }}</td>
+        <td>{{ test_obj.test2 }}</td>
+        <td>{{ test_obj.test3 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+```
