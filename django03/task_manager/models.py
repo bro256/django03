@@ -96,6 +96,7 @@ class Task(models.Model):
     created_at = models.DateTimeField(_("Created"), auto_now_add=True)
 
     class Meta:
+        ordering = ['-finish', '-priority']
         verbose_name = _("task")
         verbose_name_plural = _("tasks")
 
@@ -125,7 +126,6 @@ class TaskComment(models.Model):
     created_at = models.DateTimeField(_("Created"), auto_now_add=True)
     
     class Meta:
-        ordering = ['-finish', '-priority']
         verbose_name = _("task comment")
         verbose_name_plural = _("task comments")
 
