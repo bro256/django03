@@ -137,7 +137,7 @@ class TaskComment(models.Model):
         verbose_name_plural = _("task comments")
 
     def __str__(self):
-        return self.name
+        return self.content
 
     def get_absolute_url(self):
         return reverse("taskcomment_detail", kwargs={"pk": self.pk})
