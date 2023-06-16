@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Tasks {{ block.super }} {% endblock title %}
+{% block content %}
+<h1>Task list</h1>
+{% comment %} {% include 'includes/search.html' %} {% endcomment %}
+{% if task_list %}
+{% include 'includes/paginator_nav.html' %}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Task</th>
+            <th>Assignees</th>
+            <th>Status</th>                
+            <th>Start</th>
+            <th>Finish</th>
+            <th>Is overdue</th>
+            <th>Priority</th>
+        </tr>
+        {% for task in task_list %}
+        <tr>
+            <td>{{ task.id }}</td>
+            <td>{{ task.content }}</td>
+            <td>{{ task.assignee }}</td>
+            <td>{{ task.get_status_display }}</td>                
+            <td>{{ task.start }}</td>
+            <td>{{ task.finish }}</td>
+            <td>{{ task.is_overdue }}</td>
+            <td>{{ task.get_priority_display }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+{% endblock content %}
