@@ -1,0 +1,115 @@
+{% comment %} <!DOCTYPE html>
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% trans "garage"|capfirst %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header>
+    <p class="logo">&#x1f697; {% trans "garage"|capfirst %}</p>
+    <ul class="nav">
+        <li><a href="{% url 'index' %}">{% trans "home"|capfirst %}</a></li>
+        <li><a href="{% url 'car_list' %}">{% trans "cars"|capfirst %}</a></li>
+        <li><a href="{% url 'order_list' %}">{% trans "orders"|capfirst %}</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'profile' %}">&#128100; {{ user.get_username }}</a></li>
+            <li><a href="{% url 'logout' %}">{% trans "logout"|capfirst %}</a></li>
+            <li><a href="{% url 'user_cars' %}">{% trans "my cars"|capfirst %}</a></li>
+            <li><a href="{% url 'user_orders' %}">{% trans "my orders"|capfirst %}</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}">{% trans "login"|capfirst %}</a></li>
+            <li><a href="{% url 'login' %}?next={{request.path}}">{% trans "login"|capfirst %}</a></li>
+            <li><a href="{% url 'signup' %}">{% trans "sign up"|capfirst %}</a></li>
+        {% endif %}
+        {% if user.is_authenticated %}
+            {% if user.is_staff or user.is_superuser %}
+                <li><a href="{% url 'admin:index' %}">{% trans "admin"|capfirst %}</a></li>
+            {% endif %}
+        {% endif %}
+        <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ redirect_to }}">
+            <select name="language" onchange="this.form.submit();">
+                {% for lang in LANGUAGES %}
+                    <option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %}selected{% endif %}>
+                        {{ lang.1 }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+    </ul>
+</header>
+<main>
+{% if messages %}
+    {% for message in messages %}
+        <p class="box box-{{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+{% block content %}
+{% endblock content %}</main>
+<footer><p>&copy; Garage. 2023</footer>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% trans "Task manager"|capfirst %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header>
+    <p class="logo">&#x1f697; {% trans "Task manager"|capfirst %}</p>
+    <ul class="nav">
+        <li><a href="{% url 'index' %}">{% trans "home"|capfirst %}</a></li>
+        {% comment %} <li><a href="{% url 'task_list' %}">{% trans "tasks"|capfirst %}</a></li>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'profile' %}">&#128100; {{ user.get_username }}</a></li>
+            <li><a href="{% url 'logout' %}">{% trans "logout"|capfirst %}</a></li>
+            <li><a href="{% url 'user_tasks' %}">{% trans "my tasks"|capfirst %}</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}">{% trans "login"|capfirst %}</a></li>
+            <li><a href="{% url 'login' %}?next={{request.path}}">{% trans "login"|capfirst %}</a></li>
+            <li><a href="{% url 'signup' %}">{% trans "sign up"|capfirst %}</a></li>
+        {% endif %}
+        {% if user.is_authenticated %}
+            {% if user.is_staff or user.is_superuser %}
+                <li><a href="{% url 'admin:index' %}">{% trans "admin"|capfirst %}</a></li>
+            {% endif %}
+        {% endif %}
+        <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ redirect_to }}">
+            <select name="language" onchange="this.form.submit();">
+                {% for lang in LANGUAGES %}
+                    <option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %}selected{% endif %}>
+                        {{ lang.1 }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form> {% endcomment %}
+    </ul>
+</header>
+<main>
+{% if messages %}
+    {% for message in messages %}
+        <p class="box box-{{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+{% block content %}
+{% endblock content %}</main>
+<footer><p>&copy; Task manager. 2023</footer>
+</body>
+</html>
