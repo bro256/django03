@@ -44,13 +44,14 @@ class Task(models.Model):
         related_name='owner_tasks',
         null=True, blank=True,
     )
-    assignee = models.ForeignKey(
-        User,
-        verbose_name=_("assignee"),
-        on_delete=models.CASCADE,
-        related_name='assignee_tasks',
-        null=True, blank=True,
-    )
+    assignee = models.ManyToManyField(User)
+    # assignee = models.ForeignKey(
+    #     User,
+    #     verbose_name=_("assignee"),
+    #     on_delete=models.CASCADE,
+    #     related_name='assignee_tasks',
+    #     null=True, blank=True,
+    # )
     # priority = models.ForeignKey(
     #     Priority,
     #     verbose_name=_("priority"),
@@ -75,9 +76,8 @@ class Task(models.Model):
     priority = models.PositiveSmallIntegerField(
         _("priority"), 
         choices=PRIORITY_CHOICES, 
-        default=0,
+        default=2,
         db_index=True,
-        null=True, blank=True,
     )
 
     STATUS_CHOICES = (
@@ -92,7 +92,6 @@ class Task(models.Model):
         choices=STATUS_CHOICES, 
         default=0,
         db_index=True,
-        null=True, blank=True,
     )
     created_at = models.DateTimeField(_("Created"), auto_now_add=True)
 
@@ -126,6 +125,7 @@ class TaskComment(models.Model):
     created_at = models.DateTimeField(_("Created"), auto_now_add=True)
     
     class Meta:
+        ordering = ['-finish', '-priority']
         verbose_name = _("task comment")
         verbose_name_plural = _("task comments")
 
@@ -133,6 +133,4 @@ class TaskComment(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("taskcomment_detail", kwargs={"pk": self.pk})
-
-
+        return reverse("taskcomment_detail", kwargs={"pk": self.pk}
