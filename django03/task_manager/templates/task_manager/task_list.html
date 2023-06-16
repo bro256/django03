@@ -21,7 +21,8 @@
         <tr>
             <td>{{ task.id }}</td>
             <td>{{ task.content }}</td>
-            <td>{{ task.assignee }}</td>
+            {% comment %} <td>{{ task.assignee.all }}</td> {% endcomment %}
+            <td>{% for assignee in task.assignee.all %} {{ assignee.first_name }} {{ assignee.last_name }}</br> {% endfor %}</td>    
             <td>{{ task.get_status_display }}</td>                
             <td>{{ task.start }}</td>
             <td>{{ task.finish }}</td>
