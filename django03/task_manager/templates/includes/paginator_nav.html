@@ -6,6 +6,6 @@
     <span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
     {% if page_obj.has_next %}
     <a href="?{% if request.GET.query %}query={{ request.GET.query }}&{% endif %}page={{ page_obj.next_page_number }}">&gt;</a>
-    <a href="?{% if request.GET.query %}query={{ request.GET.query }}&{% endif %}page={{ page_obj.paginator.num_pages }}"> &lt;&lt;</a>
+    <a href="?{% if request.GET.query %}query={{ request.GET.query }}&{% endif %}page={{ page_obj.paginator.num_pages }}"> &gt;&gt;</a>
     {% endif %}
 </div>

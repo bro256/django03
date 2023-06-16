@@ -71,11 +71,11 @@
 </head>
 <body>
 <header>
-    <p class="logo">&#x1f697; {% trans "Task manager"|capfirst %}</p>
+    <p class="logo">Logo placeholder {% trans "Task manager"|capfirst %}</p>
     <ul class="nav">
         <li><a href="{% url 'index' %}">{% trans "home"|capfirst %}</a></li>
-        {% comment %} <li><a href="{% url 'task_list' %}">{% trans "tasks"|capfirst %}</a></li>
-        {% if user.is_authenticated %}
+        <li><a href="{% url 'task_list' %}">{% trans "tasks"|capfirst %}</a></li>
+        {% comment %} {% if user.is_authenticated %}
             <li><a href="{% url 'profile' %}">&#128100; {{ user.get_username }}</a></li>
             <li><a href="{% url 'logout' %}">{% trans "logout"|capfirst %}</a></li>
             <li><a href="{% url 'user_tasks' %}">{% trans "my tasks"|capfirst %}</a></li>
