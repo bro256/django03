@@ -1,3 +1,4 @@
+from datetime import date
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -35,8 +36,8 @@ User = get_user_model()
 
 class Task(models.Model):
     content = models.CharField(_('content'), max_length=250)
-    start = models.DateField
-    finish = models.DateField
+    start = models.DateField(_('start'),null=True, blank=True,)
+    finish = models.DateField(_('finish'),null=True, blank=True,)
     owner = models.ForeignKey(
         User,
         verbose_name=_("owner"),
@@ -95,13 +96,19 @@ class Task(models.Model):
     )
     created_at = models.DateTimeField(_("Created"), auto_now_add=True)
 
+    @property
+    def is_overdue(self):
+        if self.finish and date.today() > self.finish:
+            return True
+        return False
+
     class Meta:
-        ordering = ['-finish', '-priority']
+        ordering = ['finish', '-priority']
         verbose_name = _("task")
         verbose_name_plural = _("tasks")
 
     def __str__(self):
-        return self.name
+        return f"{self.content} - {self.get_status_display()}"
 
     def get_absolute_url(self):
         return reverse("task_detail", kwargs={"pk": self.pk})
