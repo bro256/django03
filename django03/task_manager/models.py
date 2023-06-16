@@ -133,4 +133,4 @@ class TaskComment(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("taskcomment_detail", kwargs={"pk": self.pk}
+        return reverse("taskcomment_detail", kwargs={"pk": self.pk})
