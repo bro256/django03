@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Tasks {{ block.super }} {% endblock title %}
+{% block title %} {{ block.super }} {% endblock title %}
 {% block content %}
 <h1>Task list</h1>
 {% comment %} {% include 'includes/search.html' %} {% endcomment %}
@@ -16,6 +16,7 @@
             <th>Finish</th>
             <th>Is overdue</th>
             <th>Priority</th>
+            <th colspan="2">Actions</th>
         </tr>
         {% for task in task_list %}
         <tr>
@@ -28,6 +29,8 @@
             <td>{{ task.finish }}</td>
             <td>{{ task.is_overdue }}</td>
             <td>{{ task.get_priority_display }}</td>
+            <td><a href="{% url 'task_detail' task.pk %}">View</a></td>
+            <td><a href="{% url 'task_update' task.pk %}">Update</a></td>     
         </tr>
         {% endfor %}
     </table>

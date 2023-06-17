@@ -45,7 +45,7 @@ class Task(models.Model):
         related_name='owner_tasks',
         null=True, blank=True,
     )
-    assignee = models.ManyToManyField(User)
+    assignee = models.ManyToManyField(User, related_name='assignee_tasks')
     # assignee = models.ForeignKey(
     #     User,
     #     verbose_name=_("assignee"),
