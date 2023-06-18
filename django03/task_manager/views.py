@@ -34,7 +34,7 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
     model = Task
     form_class = TaskForm
     template_name = 'task_manager/task_form.html'
-    success_url = reverse_lazy('assignee_tasks')
+    success_url = reverse_lazy('task_list')
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
