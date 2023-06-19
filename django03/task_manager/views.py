@@ -47,7 +47,7 @@ class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
         # self.task = get_object_or_404(Task, id=self.request.GET.get('task_id'))
         initial = super().get_initial()
         initial['start'] = date.today()
-        initial['finish'] = date.today() + timedelta(days=14)
+        initial['finish'] = date.today() + timedelta(days=7)
         initial['status'] = 0
         initial['priority'] = 2
         initial['owner'] = self.request.user
@@ -89,3 +89,16 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
                     return False
 
         # return obj.owner == self.request.user
+
+class TaskDeleteView(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    generic.DeleteView
+):
+    model = Task
+    template_name = 'task_manager/task_delete.html'
+    success_url = reverse_lazy('task_list')
+
+    def test_func(self) -> bool | None:
+        obj = self.get_object()
+        return obj.owner == self.request.user
