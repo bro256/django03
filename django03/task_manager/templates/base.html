@@ -75,21 +75,21 @@
     <ul class="nav">
         <li><a href="{% url 'index' %}">{% trans "home"|capfirst %}</a></li>
         <li><a href="{% url 'task_list' %}">{% trans "tasks"|capfirst %}</a></li>
-        {% comment %} {% if user.is_authenticated %}
-            <li><a href="{% url 'profile' %}">&#128100; {{ user.get_username }}</a></li>
+        {% if user.is_authenticated %}
+            {% comment %} <li><a href="{% url 'profile' %}">&#128100; {{ user.username }}</a></li>{% endcomment %}
             <li><a href="{% url 'logout' %}">{% trans "logout"|capfirst %}</a></li>
-            <li><a href="{% url 'user_tasks' %}">{% trans "my tasks"|capfirst %}</a></li>
+            {% comment %} <li><a href="{% url 'user_tasks' %}">{% trans "my tasks"|capfirst %}</a></li>{% endcomment %} 
         {% else %}
-            <li><a href="{% url 'login' %}">{% trans "login"|capfirst %}</a></li>
             <li><a href="{% url 'login' %}?next={{request.path}}">{% trans "login"|capfirst %}</a></li>
-            <li><a href="{% url 'signup' %}">{% trans "sign up"|capfirst %}</a></li>
+            {% comment %}             <li><a href="{% url 'login' %}">{% trans "login"|capfirst %}</a></li>
+            <li><a href="{% url 'signup' %}">{% trans "sign up"|capfirst %}</a></li>{% endcomment %} 
         {% endif %}
         {% if user.is_authenticated %}
             {% if user.is_staff or user.is_superuser %}
                 <li><a href="{% url 'admin:index' %}">{% trans "admin"|capfirst %}</a></li>
             {% endif %}
         {% endif %}
-        <form action="{% url 'set_language' %}" method="post">
+        {% comment %} <form action="{% url 'set_language' %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ redirect_to }}">
             <select name="language" onchange="this.form.submit();">
