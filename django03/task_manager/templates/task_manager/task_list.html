@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %} {{ block.super }} {% endblock title %}
 {% block content %}
+<h1><a class="button float-right" href="{% url 'task_create' %}">Create new</a></h1>
 <h1>Task list</h1>
 {% comment %} {% include 'includes/search.html' %} {% endcomment %}
 {% if task_list %}
