@@ -74,7 +74,7 @@
     <p class="logo">Logo placeholder {% trans "Task manager"|capfirst %}</p>
     <ul class="nav">
         <li><a href="{% url 'index' %}">{% trans "home"|capfirst %}</a></li>
-        <li><a href="{% url 'task_list' %}">{% trans "tasks"|capfirst %}</a></li>
+        <li><a href="{% url 'task_list' %}">{% trans "Manage tasks"|capfirst %}</a></li>
         {% if user.is_authenticated %}
             {% comment %} <li><a href="{% url 'profile' %}">&#128100; {{ user.username }}</a></li>{% endcomment %}
             <li><a href="{% url 'logout' %}">{% trans "logout"|capfirst %}</a></li>

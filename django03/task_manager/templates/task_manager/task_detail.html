@@ -2,6 +2,10 @@
 {% load static %}
 {% block title %} {{ block.super }} {% endblock title %}
 {% block content %}
+{% if task.owner.username ==  user.username%}
 <h1>Task detail</h1>
 <p>{{ task }}</p>
+{% else %}
+<p>You have no access to view this task</p>
+{% endif %}
 {% endblock content %}

@@ -24,7 +24,7 @@ def index(request):
 
 class TaskListView(generic.ListView):
     model = Task
-    paginate_by = 2
+    paginate_by = 20
     template_name = "task_manager/task_list.html"
 
 
