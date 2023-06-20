@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -96,6 +96,8 @@ class Task(models.Model):
     )
     created_at = models.DateTimeField(_("Created"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Updated"), auto_now=True)
+    is_read = models.BooleanField(default=False)
+    read_at = models.DateTimeField(null=True)    
 
     @property
     def is_overdue(self):
@@ -107,6 +109,11 @@ class Task(models.Model):
         ordering = ['finish', '-priority']
         verbose_name = _("task")
         verbose_name_plural = _("tasks")
+
+    def mark_task_as_read(task):
+        task.is_read = True
+        task.read_at = datetime.now()
+        task.save()
 
     def __str__(self):
         return f"{self.content} - {self.get_status_display()}"
