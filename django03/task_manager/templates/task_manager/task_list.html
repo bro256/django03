@@ -20,7 +20,7 @@
             <th>Finish</th>
             <th>Is overdue</th>
             <th>Priority</th>
-            <th colspan="4">Actions</th>
+            <th colspan="3">Actions</th>
         </tr>
         {% for task in task_list %}
         {% comment %} {% if task.owner.username == user.username %} {% endcomment %}
@@ -37,8 +37,8 @@
             <td>{{ task.is_overdue }}</td>
             <td>{{ task.get_priority_display }}</td>
             <td><a href="{% url 'task_detail' task.pk %}">View</a></td>
-            <td><a href="{% url 'task_detail' task.pk %}">Update status</a></td>
-            <td>{% if task.owner.username == user.username %}<a href="{% url 'task_update' task.pk %}">Update task</a>{% endif %}</td>   
+            {% comment %} <td><a href="{% url 'task_detail' task.pk %}">Update status</a></td> {% endcomment %}
+            <td><a href="{% url 'task_update' task.pk %}">Update task</a></td>   
             <td>{% if task.owner.username == user.username %}<a href="{% url 'task_delete' task.pk %}">Delete</a>{% endif %}</td> 
         </tr>
         {% comment %} {% endif %} {% endcomment %}

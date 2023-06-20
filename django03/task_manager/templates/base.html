@@ -76,8 +76,8 @@
         <li><a href="{% url 'index' %}">{% trans "home"|capfirst %}</a></li>
         {% if user.is_authenticated %}
             <li><a href="{% url 'task_list' %}">{% trans "Task management"|capfirst %}</a></li>
-            <li><a href="{% url 'user_task_list' %}">{% trans "Task progress"|capfirst %}</a></li>
             {% comment %} <li><a href="{% url 'profile' %}">&#128100; {{ user.username }}</a></li>{% endcomment %}
+            <li>You are logged in as: {{ user.username }}</li>
             <li><a href="{% url 'logout' %}">{% trans "logout"|capfirst %}</a></li>
             {% comment %} <li><a href="{% url 'user_tasks' %}">{% trans "my tasks"|capfirst %}</a></li>{% endcomment %} 
         {% else %}

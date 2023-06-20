@@ -97,14 +97,22 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
-        if not self.request.user.is_staff and not self.request.user.is_superuser:
+
+        if self.object.owner == self.request.user and not self.request.user.is_superuser:
             form.fields['assignee'].widget = forms.HiddenInput()
+
+        elif self.object.owner != self.request.user and not self.request.user.is_superuser:
+            # If user is superuser, exclude all fields except "status"
+            for field_name in form.fields:
+                if field_name != 'status':
+                    form.fields[field_name].widget = forms.HiddenInput()
+
         return form
     
     # Checks that the user passes the given test
     def test_func(self):
         obj = self.get_object()
-        if obj.owner == self.request.user:
+        if obj.owner == self.request.user or obj.assignee == self.request.user:
             return True
         else:
             return False
