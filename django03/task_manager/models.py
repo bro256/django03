@@ -45,14 +45,14 @@ class Task(models.Model):
         related_name='owner_tasks',
         null=True, blank=True,
     )
-    assignee = models.ManyToManyField(User, related_name='assignee_tasks')
-    # assignee = models.ForeignKey(
-    #     User,
-    #     verbose_name=_("assignee"),
-    #     on_delete=models.CASCADE,
-    #     related_name='assignee_tasks',
-    #     null=True, blank=True,
-    # )
+    # assignee = models.ManyToManyField(User, related_name='assignee_tasks')
+    assignee = models.ForeignKey(
+        User,
+        verbose_name=_("assignee"),
+        on_delete=models.CASCADE,
+        related_name='assignee_tasks',
+        null=True, blank=True,
+    )
     # priority = models.ForeignKey(
     #     Priority,
     #     verbose_name=_("priority"),
