@@ -2,7 +2,63 @@
 {% block title %}Task delete{% endblock title %}
 {% block content %}
 <h1>Confirm task delete</h1>
-<p>Task: {{ task.content }}</p>
+<table>
+    <tr>
+        <td>Task ID:</td>
+        <td>{{ task.id }}</td>
+    </tr>
+        <td>Task:</td>
+        <td>{{ task.content }}</td>
+    </tr>
+    <tr>
+        <td>Manager:</td>
+        <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>
+    </tr>
+    <tr>
+        <td>Manager email:</td>
+        <td>{{ task.owner.email }}</td>
+    </tr>
+    {% comment %} <tr>
+        <td>Assignees:</td>
+        <td>{% for assignee in task.assignee.all %} {{ assignee.first_name }} {{ assignee.last_name }}</br> {% endfor %}</td>
+    </tr> {% endcomment %}
+    <tr>
+        <td>Assignee:</td>
+        <td> {{ assignee.first_name }} {{ assignee.last_name }}</td>
+    </tr>
+    {% comment %} <tr>
+        <td>Assignee emails:</td>
+        <td>{% for assignee in task.assignee.all %} {{ assignee.email }}</br> {% endfor %}</td>
+    </tr>
+    <tr> {% endcomment %}
+        <td>Assignee email:</td>
+        <td>{{ assignee.email }}</td>
+    </tr>
+    <tr>
+        <td>Status:</td>
+        <td>{{ task.get_status_display }}</td>
+    </tr>
+    <tr>
+        <td>Start:</td>
+        <td>{{ task.start }}</td>
+    </tr>
+    <tr>
+        <td>Finish:</td>
+        <td>{{ task.finish }}</td>
+    </tr>
+    <tr>
+        <td>Priority:</td>
+        <td>{{ task.get_priority_display }}</td>
+    <tr>
+    </tr>
+        <td>Created by:</td>
+        <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>
+    </tr>
+    <tr>
+        <td>Created at:</td>
+        <td>{{ task.created_at }}</td>
+    </tr>
+</table>
 <form action="{{ request.path }}" method="post">
     {% csrf_token %}
     <button type="submit">Confirm</button>
