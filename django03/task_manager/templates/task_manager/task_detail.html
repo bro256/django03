@@ -2,7 +2,8 @@
 {% load static %}
 {% block title %} {{ block.super }} {% endblock title %}
 {% block content %}
-{% if task.owner.username ==  user.username%}
+{% comment %} {% if task.owner.username == user.username%} {% endcomment %}
+{% if task.owner.username == user.username or user in task.assignee.all %}
 <h1>Task details</h1>
 <table>
     <tr>

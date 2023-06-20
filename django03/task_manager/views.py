@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 from typing import Any, Dict, Optional
 from typing import Any
+from django import forms
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponse
@@ -25,7 +26,7 @@ def index(request):
 
 class TaskListView(generic.ListView):
     model = Task
-    paginate_by = 2
+    paginate_by = 20
     template_name = "task_manager/task_list.html"
 
     def get_queryset(self):
@@ -34,7 +35,7 @@ class TaskListView(generic.ListView):
 
 class UserTaskListView(generic.ListView):
     model = Task
-    paginate_by = 2
+    paginate_by = 20
     template_name = "task_manager/user_task_list.html"
 
     def get_queryset(self):
@@ -65,6 +66,8 @@ class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
         initial['status'] = 0
         initial['priority'] = 2
         initial['owner'] = self.request.user
+        if not self.request.user.is_staff and not self.request.user.is_superuser:
+            initial['assignee'] = [self.request.user.pk]
         return initial
 
     def form_valid(self, form):
@@ -74,7 +77,7 @@ class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
     # Checks that the user passes the given test
     def test_func(self):
         return self.request.user.is_authenticated
-                
+                  
 
 class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Task
