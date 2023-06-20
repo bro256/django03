@@ -17,8 +17,16 @@
         <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>
     </tr>
     </tr>
+        <td>Manager email:</td>
+        <td>{{ task.owner.email }}</td>
+    </tr>
+    </tr>
         <td>Assignees:</td>
         <td>{% for assignee in task.assignee.all %} {{ assignee.first_name }} {{ assignee.last_name }}</br> {% endfor %}</td>
+    </tr>
+    </tr>
+        <td>Assignee emails:</td>
+        <td>{% for assignee in task.assignee.all %} {{ assignee.email }}</br> {% endfor %}</td>
     </tr>
     </tr>
         <td>Status:</td>
@@ -36,9 +44,14 @@
         <td>Priority:</td>
         <td>{{ task.get_priority_display }}</td>
     </tr>
-    
-    
-
+    </tr>
+        <td>Created by:</td>
+        <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>
+    </tr>
+        </tr>
+        <td>Created at:</td>
+        <td>{{ task.created_at }}</td>
+    </tr>
 </table>
 {% else %}
 <p>You have no access to view this task</p>
