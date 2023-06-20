@@ -60,7 +60,11 @@
     </tr>
     <tr>
         <td>Created at:</td>
-        <td>{{ task.created_at }}</td>
+        <td>{{ task.created_at }} (GMT)</td>
+    </tr>
+    <tr>
+        <td>Last updated at:</td>
+        <td>{{ task.updated_at }} (GMT)</td>
     </tr>
 </table>
 {% else %}

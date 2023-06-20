@@ -95,6 +95,7 @@ class Task(models.Model):
         db_index=True,
     )
     created_at = models.DateTimeField(_("Created"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Updated"), auto_now=True)
 
     @property
     def is_overdue(self):
