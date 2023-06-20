@@ -3,7 +3,8 @@
 {% block title %} {{ block.super }} {% endblock title %}
 {% block content %}
 {% comment %} {% if task.owner.username == user.username%} {% endcomment %}
-{% if task.owner.username == user.username or user in task.assignee.all %}
+{% comment %} {% if task.owner.username == user.username or user in task.assignee.all %} {% endcomment %}
+{% if task.owner.username == user.username or task.assignee.username == user.username %}
 <h1>Task details</h1>
 <table>
     <tr>
@@ -13,43 +14,51 @@
         <td>Task:</td>
         <td>{{ task.content }}</td>
     </tr>
-    </tr>
+    <tr>
         <td>Manager:</td>
         <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>
     </tr>
-    </tr>
+    <tr>
         <td>Manager email:</td>
         <td>{{ task.owner.email }}</td>
     </tr>
-    </tr>
+    {% comment %} <tr>
         <td>Assignees:</td>
         <td>{% for assignee in task.assignee.all %} {{ assignee.first_name }} {{ assignee.last_name }}</br> {% endfor %}</td>
+    </tr> {% endcomment %}
+    <tr>
+        <td>Assignee:</td>
+        <td> {{ assignee.first_name }} {{ assignee.last_name }}</td>
     </tr>
-    </tr>
+    {% comment %} <tr>
         <td>Assignee emails:</td>
         <td>{% for assignee in task.assignee.all %} {{ assignee.email }}</br> {% endfor %}</td>
     </tr>
+    <tr> {% endcomment %}
+        <td>Assignee email:</td>
+        <td>{{ assignee.email }}</td>
     </tr>
+    <tr>
         <td>Status:</td>
         <td>{{ task.get_status_display }}</td>
     </tr>
-    </tr>
+    <tr>
         <td>Start:</td>
         <td>{{ task.start }}</td>
     </tr>
-    </tr>
+    <tr>
         <td>Finish:</td>
         <td>{{ task.finish }}</td>
     </tr>
-    </tr>
+    <tr>
         <td>Priority:</td>
         <td>{{ task.get_priority_display }}</td>
-    </tr>
+    <tr>
     </tr>
         <td>Created by:</td>
         <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>
     </tr>
-        </tr>
+    <tr>
         <td>Created at:</td>
         <td>{{ task.created_at }}</td>
     </tr>

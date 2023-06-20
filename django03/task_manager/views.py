@@ -67,12 +67,21 @@ class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
         initial['priority'] = 2
         initial['owner'] = self.request.user
         if not self.request.user.is_staff and not self.request.user.is_superuser:
-            initial['assignee'] = [self.request.user.pk]
+            initial['assignee'] = self.request.user
         return initial
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
+    
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        
+        if not self.request.user.is_staff and not self.request.user.is_superuser:
+            form.fields['assignee'].initial = self.request.user.username
+            form.fields['assignee'].widget = forms.HiddenInput()
+
+        return form
 
     # Checks that the user passes the given test
     def test_func(self):
@@ -96,11 +105,12 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
         if obj.owner == self.request.user:
             return True
         else:
-            for assignee in obj.assignee.all():
-                if assignee == self.request.user:
-                    return True
-                else:
-                    return False
+            return False
+            # for assignee in obj.assignee.all():
+            #     if assignee == self.request.user:
+            #         return True
+            #     else:
+            #         return False
 
         # return obj.owner == self.request.user
 

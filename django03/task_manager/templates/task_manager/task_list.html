@@ -3,9 +3,9 @@
 {% block title %} {{ block.super }} {% endblock title %}
 {% block content %}
 <h1>Task list</h1>
-{% if self.request.user.is_staff or self.request.user.is_superuser %}
+{% comment %} {% if self.request.user.is_staff or self.request.user.is_superuser %} {% endcomment %}
 <p><a class="button float-right" href="{% url 'task_create' %}">Create new</a></p>
-{% endif %}
+{% comment %} {% endif %} {% endcomment %}
 {% comment %} {% include 'includes/search.html' %} {% endcomment %}
 {% if task_list %}
     {% include 'includes/paginator_nav.html' %}
@@ -13,8 +13,8 @@
         <tr>
             <th>ID</th>
             <th>Task</th>
-            <th>Owner</th>
-            <th>Assignees</th>
+            <th>Manager</th>
+            <th>Assignee</th>
             <th>Status</th>                
             <th>Start</th>
             <th>Finish</th>
@@ -29,8 +29,9 @@
             <td>{{ task.content }}</td>
             {% comment %} <td>{{ task.assignee.all }}</td> {% endcomment %}
             <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>  
-            <td>{% for assignee in task.assignee.all %} {{ assignee.first_name }} {{ assignee.last_name }}</br> {% endfor %}</td>    
-            <td>{{ task.get_status_display }}</td>                
+            {% comment %} <td>{% for assignee in task.assignee.all %} {{ assignee.first_name }} {{ assignee.last_name }}</br> {% endfor %}</td>     {% endcomment %}
+            <td>{{ task.assignee.first_name }} {{ task.assignee.last_name }}</td>
+            <td>{{ task.get_status_display }}</td>   
             <td>{{ task.start }}</td>
             <td>{{ task.finish }}</td>
             <td>{{ task.is_overdue }}</td>
