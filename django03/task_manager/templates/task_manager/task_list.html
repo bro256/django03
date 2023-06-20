@@ -3,7 +3,7 @@
 {% block title %} {{ block.super }} {% endblock title %}
 {% block content %}
 <h1>Task list</h1>
-<h1><a class="button float-right" href="{% url 'task_create' %}">Create new</a></h1>
+<p><a class="button float-right" href="{% url 'task_create' %}">Create new</a></p>
 {% comment %} {% include 'includes/search.html' %} {% endcomment %}
 {% if task_list %}
     {% include 'includes/paginator_nav.html' %}
@@ -21,23 +21,23 @@
             <th colspan="3">Actions</th>
         </tr>
         {% for task in task_list %}
-            {% if task.owner.username == user.username %}
-            <tr>
-                <td>{{ task.id }}</td>
-                <td>{{ task.content }}</td>
-                {% comment %} <td>{{ task.assignee.all }}</td> {% endcomment %}
-                <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>  
-                <td>{% for assignee in task.assignee.all %} {{ assignee.first_name }} {{ assignee.last_name }}</br> {% endfor %}</td>    
-                <td>{{ task.get_status_display }}</td>                
-                <td>{{ task.start }}</td>
-                <td>{{ task.finish }}</td>
-                <td>{{ task.is_overdue }}</td>
-                <td>{{ task.get_priority_display }}</td>
-                <td><a href="{% url 'task_detail' task.pk %}">View</a></td>
-                <td><a href="{% url 'task_update' task.pk %}">Update</a></td>   
-                <td><a href="{% url 'task_delete' task.pk %}">Delete</a></td> 
-            </tr>
-            {% endif %}
+        {% comment %} {% if task.owner.username == user.username %} {% endcomment %}
+        <tr>
+            <td>{{ task.id }}</td>
+            <td>{{ task.content }}</td>
+            {% comment %} <td>{{ task.assignee.all }}</td> {% endcomment %}
+            <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>  
+            <td>{% for assignee in task.assignee.all %} {{ assignee.first_name }} {{ assignee.last_name }}</br> {% endfor %}</td>    
+            <td>{{ task.get_status_display }}</td>                
+            <td>{{ task.start }}</td>
+            <td>{{ task.finish }}</td>
+            <td>{{ task.is_overdue }}</td>
+            <td>{{ task.get_priority_display }}</td>
+            <td><a href="{% url 'task_detail' task.pk %}">View</a></td>
+            <td><a href="{% url 'task_update' task.pk %}">Update</a></td>   
+            <td><a href="{% url 'task_delete' task.pk %}">Delete</a></td> 
+        </tr>
+        {% comment %} {% endif %} {% endcomment %}
         {% endfor %}
     </table>
 {% endif %}

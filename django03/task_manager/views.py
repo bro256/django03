@@ -24,8 +24,21 @@ def index(request):
 
 class TaskListView(generic.ListView):
     model = Task
-    paginate_by = 20
+    paginate_by = 2
     template_name = "task_manager/task_list.html"
+
+    def get_queryset(self):
+        user = self.request.user
+        return Task.objects.filter(owner__username=user.username)
+
+class UserTaskListView(generic.ListView):
+    model = Task
+    paginate_by = 2
+    template_name = "task_manager/user_task_list.html"
+
+    def get_queryset(self):
+        user = self.request.user
+        return Task.objects.filter(assignee__username=user.username)
 
 
 class TaskDetailView(generic.DetailView):
@@ -37,7 +50,7 @@ class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
     model = Task
     form_class = TaskForm
     template_name = 'task_manager/task_form.html'
-    # success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('task_list')
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
