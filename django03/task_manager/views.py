@@ -5,6 +5,7 @@ from django import forms
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponse
+from django.db.models import Q
 from django.shortcuts import render
 from django.views import generic
 from django.shortcuts import render, get_object_or_404
@@ -31,7 +32,7 @@ class TaskListView(generic.ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return Task.objects.filter(owner__username=user.username)
+        return Task.objects.filter(Q(owner__username=user.username) | Q(assignee__username=user.username))
 
 class UserTaskListView(generic.ListView):
     model = Task
