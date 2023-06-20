@@ -95,10 +95,11 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
     template_name = 'task_manager/task_form.html'
     success_url = reverse_lazy('task_list')
 
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        obj = self.get_object()
-        return context
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        if not self.request.user.is_staff and not self.request.user.is_superuser:
+            form.fields['assignee'].widget = forms.HiddenInput()
+        return form
     
     # Checks that the user passes the given test
     def test_func(self):
