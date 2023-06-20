@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 from typing import Any, Dict, Optional
 from typing import Any
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -89,13 +90,10 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
     # Checks that the user passes the given test
     def test_func(self):
         obj = self.get_object()
-        print(obj.assignee.all())
         if obj.owner == self.request.user:
             return True
         else:
             for assignee in obj.assignee.all():
-                print("assignee: ", assignee)
-                print("user: ", self.request.user)
                 if assignee == self.request.user:
                     return True
                 else:

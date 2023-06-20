@@ -3,8 +3,43 @@
 {% block title %} {{ block.super }} {% endblock title %}
 {% block content %}
 {% if task.owner.username ==  user.username%}
-<h1>Task detail</h1>
-<p>{{ task }}</p>
+<h1>Task details</h1>
+<table>
+    <tr>
+        <td>Task ID:</td>
+        <td>{{ task.id }}</td>
+    </tr>
+        <td>Task:</td>
+        <td>{{ task.content }}</td>
+    </tr>
+    </tr>
+        <td>Manager:</td>
+        <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>
+    </tr>
+    </tr>
+        <td>Assignees:</td>
+        <td>{% for assignee in task.assignee.all %} {{ assignee.first_name }} {{ assignee.last_name }}</br> {% endfor %}</td>
+    </tr>
+    </tr>
+        <td>Status:</td>
+        <td>{{ task.get_status_display }}</td>
+    </tr>
+    </tr>
+        <td>Start:</td>
+        <td>{{ task.start }}</td>
+    </tr>
+    </tr>
+        <td>Finish:</td>
+        <td>{{ task.finish }}</td>
+    </tr>
+    </tr>
+        <td>Priority:</td>
+        <td>{{ task.get_priority_display }}</td>
+    </tr>
+    
+    
+
+</table>
 {% else %}
 <p>You have no access to view this task</p>
 {% endif %}
