@@ -71,7 +71,7 @@ class TaskDetailView(generic.edit.FormMixin, generic.DetailView):
         form.instance.task = self.get_object()
         form.instance.commenter = self.request.user
         form.save()
-        messages.success(self.request, _('Comment posted!'))
+        messages.success(self.request, _('Comment posted successfully!'))
         return super().form_valid(form)
 
     def get_success_url(self) -> str:
@@ -102,6 +102,7 @@ class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
+        messages.success(self.request, _('Task created successfully!'))
         return super().form_valid(form)
     
     def get_form(self, form_class=None):
@@ -138,6 +139,10 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
 
         return form
     
+    def form_valid(self, form):
+        messages.success(self.request, _('Task updated successfully!'))
+        return super().form_valid(form)
+
     # Checks that the user passes the given test
     def test_func(self):
         obj = self.get_object()
@@ -161,6 +166,10 @@ class TaskDeleteView(
     model = Task
     template_name = 'task_manager/task_delete.html'
     success_url = reverse_lazy('task_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Task deleted successfully!'))
+        return super().form_valid(form)
 
     def test_func(self) -> bool | None:
         obj = self.get_object()
