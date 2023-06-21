@@ -3,5 +3,7 @@
 {% block content %}
 <h1>Task manager</h1>
 <p>A task manager is a tool that helps individuals or teams organize, track, and prioritize their tasks and activities. It typically provides features like task creation, assignment, due dates, progress tracking, reminders, and collaboration, allowing users to efficiently manage their workload and stay organized. It serves as a central hub for managing and monitoring tasks, improving productivity and facilitating effective task management.</p>
+{% if not user.is_authenticated %}
 <p>To access Task manager, please <a href="{% url 'login' %}">Login</a>.
+{% endif %}
 {% endblock content %}
