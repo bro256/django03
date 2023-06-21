@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %} {{ block.super }} {% endblock title %}
 {% block content %}
-<h1>Task</h1>
+<h1>Update task</h1>
 <p>{{ task }}</p>
 <form method = "post" action="{{ request.path }}?task_id={{ task.id }}">
     {% csrf_token %}

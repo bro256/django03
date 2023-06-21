@@ -131,9 +131,9 @@ class TaskComment(models.Model):
         related_name='comments',
         null=True, blank=True,
     )
-    user = models.ForeignKey(
+    commenter = models.ForeignKey(
         User,
-        verbose_name=_("user"),
+        verbose_name=_("commenter"),
         on_delete=models.CASCADE,
         related_name='task_comments',
         null=True, blank=True,
@@ -141,6 +141,7 @@ class TaskComment(models.Model):
     created_at = models.DateTimeField(_("Created"), auto_now_add=True)
     
     class Meta:
+        ordering = ['-created_at']
         verbose_name = _("task comment")
         verbose_name_plural = _("task comments")
 

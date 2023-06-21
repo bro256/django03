@@ -13,3 +13,12 @@ class TaskForm(forms.ModelForm):
             'start' : DateInput(),
             'finish' : DateInput(),
         }
+
+class TaskCommentForm(forms.ModelForm):
+    class Meta:
+        model = models.TaskComment
+        fields = ('content', 'task', 'commenter')
+        widgets = {
+            'task' : forms.HiddenInput(),
+            'commenter' : forms.HiddenInput(),
+        }

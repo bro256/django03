@@ -17,10 +17,12 @@ from . models import Task, TaskComment
 
 def index(request):
     num_tasks = Task.objects.all().count()
+    num_tasks_not_tarted = Task.objects.filter(status__exact=0).count
 
     # To dictionary
     context = {
         'num_tasks' : num_tasks,
+        'num_tasks_not_tarted' : num_tasks_not_tarted,
     }
 
     return render(request, 'task_manager/index.html', context)
