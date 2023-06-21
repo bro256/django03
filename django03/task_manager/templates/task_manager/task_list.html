@@ -44,5 +44,8 @@
         {% comment %} {% endif %} {% endcomment %}
         {% endfor %}
     </table>
+    {% for count in task_counts %}
+  <p>    {{ count.status_display }}: {{ count.count }} tasks</p>
+{% endfor %}
 {% endif %}
 {% endblock content %}

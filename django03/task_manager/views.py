@@ -14,7 +14,7 @@ from django.utils.translation import gettext_lazy as _
 from . forms import TaskForm
 from . models import Task, TaskComment
 from . forms import TaskCommentForm
-
+from django.db.models import Count
 
 
 def index(request):
@@ -37,6 +37,21 @@ class TaskListView(generic.ListView):
     def get_queryset(self):
         user = self.request.user
         return Task.objects.filter(Q(owner__username=user.username) | Q(assignee__username=user.username))
+    
+    # For calculation of tasks with different statuses for logged in user 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        task_counts = (
+            Task.objects.filter(assignee=user)
+            .values('status')
+            .annotate(count=Count('status'))
+        )
+        # Convert status values to words
+        for count in task_counts:
+            count['status_display'] = Task.STATUS_CHOICES[count['status']][1]
+        context['task_counts'] = task_counts
+        return context
 
 class UserTaskListView(generic.ListView):
     model = Task
