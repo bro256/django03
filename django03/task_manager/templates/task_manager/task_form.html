@@ -3,7 +3,7 @@
 {% block title %} {{ block.super }} {% endblock title %}
 {% block content %}
 <h1>Update task</h1>
-<p>{{ task }}</p>
+<p>Task: {{ task.content }}</p>
 <form method = "post" action="{{ request.path }}?task_id={{ task.id }}">
     {% csrf_token %}
     {{ form.as_p }}

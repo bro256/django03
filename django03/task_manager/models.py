@@ -36,6 +36,7 @@ User = get_user_model()
 
 class Task(models.Model):
     content = models.CharField(_('content'), max_length=250)
+    note = models.TextField(_('note'), max_length=10000, null=True, blank=True,)
     start = models.DateField(_('start'),null=True, blank=True,)
     finish = models.DateField(_('finish'),null=True, blank=True,)
     owner = models.ForeignKey(
@@ -84,9 +85,9 @@ class Task(models.Model):
     STATUS_CHOICES = (
         (0, _('Not started')),
         (1, _('In progess')),
-        (2, _('Completed')),
-        (3, _('On hold')),
-        (4, _('Cancelled')),
+        (2, _('On hold')),
+        (3, _('Cancelled')),
+        (4, _('Completed')),
     )
     status = models.PositiveSmallIntegerField(
         _("status"), 
@@ -106,7 +107,7 @@ class Task(models.Model):
         return False
 
     class Meta:
-        ordering = ['finish', '-priority']
+        ordering = ['status', 'finish', '-priority']
         verbose_name = _("task")
         verbose_name_plural = _("tasks")
 
