@@ -67,6 +67,24 @@
         <td>{{ task.updated_at }} (GMT)</td>
     </tr>
 </table>
+
+<h2>Comments</h2>
+    <form method="post" action="{{ request.path }}">
+    <h3>Leave your comment</h3>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Post</button>
+    </form>
+{% if task.comments.count > 0 %}
+    <ul>
+        {% for comment in task.comments.all %}
+            <li>{{ comment.commented_at }} by {{ comment.commenter }}<br>
+                {{ comment.content }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
 {% else %}
 <p>You have no access to view this task</p>
 {% endif %}
