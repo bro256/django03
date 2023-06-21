@@ -2,52 +2,60 @@
 {% load static %}
 {% block title %} {{ block.super }} {% endblock title %}
 {% block content %}
-<h1>Task list</h1>
-<ul>
-    {% for count in task_counts %}
-    <li>Tasks</br>{{ count.status_display }}</br>{{ count.count }}</li>
-    {% endfor %}
-</ul>
-{% comment %} {% if self.request.user.is_staff or self.request.user.is_superuser %} {% endcomment %}
-<p><a class="button float-right" href="{% url 'task_create' %}">Create new</a></p>
-{% comment %} {% endif %} {% endcomment %}
-{% comment %} {% include 'includes/search.html' %} {% endcomment %}
-{% if task_list %}
-    {% include 'includes/paginator_nav.html' %}
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Task</th>
-            <th>Manager</th>
-            <th>Assignee</th>
-            <th>Status</th>                
-            <th>Start</th>
-            <th>Finish</th>
-            <th>Is overdue</th>
-            <th>Priority</th>
-            <th colspan="3">Actions</th>
-        </tr>
-        {% for task in task_list %}
-        {% comment %} {% if task.owner.username == user.username %} {% endcomment %}
-        <tr>
-            <td>{{ task.id }}</td>
-            <td>{{ task.content }}</td>
-            {% comment %} <td>{{ task.assignee.all }}</td> {% endcomment %}
-            <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>  
-            {% comment %} <td>{% for assignee in task.assignee.all %} {{ assignee.first_name }} {{ assignee.last_name }}</br> {% endfor %}</td>     {% endcomment %}
-            <td>{{ task.assignee.first_name }} {{ task.assignee.last_name }}</td>
-            <td>{{ task.get_status_display }}</td>   
-            <td>{{ task.start }}</td>
-            <td>{{ task.finish }}</td>
-            <td>{{ task.is_overdue }}</td>
-            <td>{{ task.get_priority_display }}</td>
-            <td><a href="{% url 'task_detail' task.pk %}">View</a></td>
-            {% comment %} <td><a href="{% url 'task_detail' task.pk %}">Update status</a></td> {% endcomment %}
-            <td><a href="{% url 'task_update' task.pk %}">Update task</a></td>   
-            <td>{% if task.owner.username == user.username %}<a href="{% url 'task_delete' task.pk %}">Delete</a>{% endif %}</td> 
-        </tr>
-        {% comment %} {% endif %} {% endcomment %}
+<div class="container">
+    <div class="row">
+        <h1>Task Management</h1>
+    </div>
+    <div class="row">
+        {% for count in task_counts %}
+        <div class="col">Tasks</br>{{ count.status_display }}</br>{{ count.count }}</div>
         {% endfor %}
-    </table>
-{% endif %}
+    </div>
+    {% comment %} {% if self.request.user.is_staff or self.request.user.is_superuser %} {% endcomment %}
+    <p><a class="button float-right" href="{% url 'task_create' %}">Create new</a></p>
+    {% comment %} {% endif %} {% endcomment %}
+    {% comment %} {% include 'includes/search.html' %} {% endcomment %}
+    {% if task_list %}
+        {% include 'includes/paginator_nav.html' %}
+        <table class="table table-bordered">
+            <tr>
+                <th>ID</th>
+                <th>Task</th>
+                <th>Manager</th>
+                <th>Assignee</th>
+                <th>Status</th>                
+                <th>Start</th>
+                <th>Finish</th>
+                <th>Is overdue</th>
+                <th>Priority</th>
+                <th colspan="3">Actions</th>
+            </tr>
+            {% for task in task_list %}
+            {% comment %} {% if task.owner.username == user.username %} {% endcomment %}
+            <tr>
+                <td>{{ task.id }}</td>
+                <td>{{ task.content }}</td>
+                {% comment %} <td>{{ task.assignee.all }}</td> {% endcomment %}
+                <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>  
+                {% comment %} <td>{% for assignee in task.assignee.all %} {{ assignee.first_name }} {{ assignee.last_name }}</br> {% endfor %}</td>     {% endcomment %}
+                <td>{{ task.assignee.first_name }} {{ task.assignee.last_name }}</td>
+                
+                {% comment %} <td>{{ task.get_status_display }}</td>
+                <div class="my-div" style="background-color: {% if value == 'red' %}#ff0000{% elif value == 'blue' %}#0000ff{% else %}#ffffff{% endif %}">   {% endcomment %}
+                <td class="{% if task.status == 1 %}table-secondary{% elif task.status == 2 %}table-warning{% elif task.status == 3 %}table-info{% elif task.status == 4 %}table-success{% endif %}">{{ task.get_status_display }}</td>
+
+                <td>{{ task.start }}</td>
+                <td>{{ task.finish }}</td>
+                <td>{{ task.is_overdue }}</td>
+                <td>{{ task.get_priority_display }}</td>
+                <td><a href="{% url 'task_detail' task.pk %}">View</a></td>
+                {% comment %} <td><a href="{% url 'task_detail' task.pk %}">Update status</a></td> {% endcomment %}
+                <td><a href="{% url 'task_update' task.pk %}">Update task</a></td>   
+                <td>{% if task.owner.username == user.username %}<a href="{% url 'task_delete' task.pk %}">Delete</a>{% endif %}</td> 
+            </tr>
+            {% comment %} {% endif %} {% endcomment %}
+            {% endfor %}
+        </table>
+    {% endif %}
+</div>
 {% endblock content %}
