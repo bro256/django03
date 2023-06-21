@@ -11,26 +11,20 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+{% if user.is_authenticated %}
 <header>
     <p class="logo">Logo placeholder {% trans "Task manager"|capfirst %}</p>
     <ul class="nav">
         <li><a href="{% url 'index' %}">{% trans "home"|capfirst %}</a></li>
-        {% if user.is_authenticated %}
-            <li><a href="{% url 'task_list' %}">{% trans "Task management"|capfirst %}</a></li>
-            {% comment %} <li><a href="{% url 'profile' %}">&#128100; {{ user.username }}</a></li>{% endcomment %}
-            <li>You are logged in as: {{ user.username }}</li>
-            <li><a href="{% url 'logout' %}">{% trans "logout"|capfirst %}</a></li>
-            {% comment %} <li><a href="{% url 'user_tasks' %}">{% trans "my tasks"|capfirst %}</a></li>{% endcomment %} 
-        {% else %}
-            <li><a href="{% url 'login' %}?next={{request.path}}">{% trans "login"|capfirst %}</a></li>
-            {% comment %}             <li><a href="{% url 'login' %}">{% trans "login"|capfirst %}</a></li>
-            <li><a href="{% url 'signup' %}">{% trans "sign up"|capfirst %}</a></li>{% endcomment %} 
+        <li><a href="{% url 'task_list' %}">{% trans "Task management"|capfirst %}</a></li>
+        {% comment %} <li><a href="{% url 'profile' %}">&#128100; {{ user.username }}</a></li>{% endcomment %}
+        {% comment %}             <li><a href="{% url 'login' %}">{% trans "login"|capfirst %}</a></li>
+        <li><a href="{% url 'signup' %}">{% trans "sign up"|capfirst %}</a></li>{% endcomment %} 
+        {% if user.is_staff or user.is_superuser %}
+            <li><a href="{% url 'admin:index' %}">{% trans "admin"|capfirst %}</a></li>
         {% endif %}
-        {% if user.is_authenticated %}
-            {% if user.is_staff or user.is_superuser %}
-                <li><a href="{% url 'admin:index' %}">{% trans "admin"|capfirst %}</a></li>
-            {% endif %}
-        {% endif %}
+        <li>You are logged in as: {{ user.username }}</li>
+        <li><a href="{% url 'logout' %}">{% trans "logout"|capfirst %}</a></li>
         {% comment %} <form action="{% url 'set_language' %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ redirect_to }}">
@@ -49,6 +43,7 @@
     {% for message in messages %}
         <p class="box box-{{ message.tags }}">{{ message }}</p>
     {% endfor %}
+{% endif %}
 {% endif %}
 {% block content %}
 {% endblock content %}</main>
