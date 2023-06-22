@@ -189,3 +189,4 @@ class TaskDeleteView(
     def test_func(self) -> bool | None:
         obj = self.get_object()
         return obj.owner == self.request.user
+    

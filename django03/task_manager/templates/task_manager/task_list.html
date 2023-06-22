@@ -13,13 +13,7 @@
         {% elif count.status == 2 %}bg-primary p-2 text-dark bg-opacity-25
         {% elif count.status == 3 %}bg-danger p-2 text-dark bg-opacity-25
         {% elif count.status == 4 %}bg-success p-2 text-dark bg-opacity-50
-        {% endif %}">
-        {% if count.status == 0 %}&#9203;
-        {% elif count.status == 1 %}&rarrw;
-        {% elif count.status == 2 %}&#9940;
-        {% elif count.status == 3 %}&#10060;
-        {% elif count.status == 4 %}&#9989;{% endif %}
-        Tasks<br>{{ count.status_display }}<br>{{ count.count }}
+        {% endif %}">Tasks<br>{{ count.status_display }}<br>{{ count.count }}
     </div>
     {% endfor %}
 </div>
@@ -40,7 +34,7 @@
             <th>Finish</th>
             <th>Is overdue</th>
             <th>Priority</th>
-            <th colspan="3">Actions</th>
+            <th>Actions</th>
         </tr>
         {% for task in task_list %}
             {% comment %} {% if task.owner.username == user.username %} {% endcomment %}
