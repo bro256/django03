@@ -31,7 +31,7 @@ def index(request):
 
 class TaskListView(generic.ListView):
     model = Task
-    paginate_by = 3
+    paginate_by = 10
     template_name = "task_manager/task_list.html"
 
     def get_queryset(self):

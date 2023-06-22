@@ -48,7 +48,14 @@
 <main>
 {% if messages %}
     {% for message in messages %}
-        <p class="box box-{{ message.tags }}">{{ message }}</p>
+        {% comment %} <p class="box box-{{ message.tags }}">{{ message }}</p> {% endcomment %}
+        {% if message.tags %}
+        <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+        </div>
+        {% else %}
+        <p>{{ message }}</p>
+        {% endif %}
     {% endfor %}
 {% endif %}
 {% endif %}
