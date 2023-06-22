@@ -27,7 +27,7 @@
                         {% endif %}
                     </div>
                     <div class="navbar-nav ms-auto">
-                        <div class="align-self-center">You are logged in as: {{ user.username }}</div>
+                        <div class="align-self-center">You are logged in as: <strong>{{ user.username }}</strong></div>
                         <a class="nav-link" href="{% url 'logout' %}">{% trans "logout"|capfirst %}</a>
                     </div>
                 </div> 
@@ -46,6 +46,7 @@
         </nav>
     </header>
 <main>
+{% endif %}
 {% if messages %}
     {% for message in messages %}
         {% comment %} <p class="box box-{{ message.tags }}">{{ message }}</p> {% endcomment %}
@@ -57,7 +58,7 @@
         <p>{{ message }}</p>
         {% endif %}
     {% endfor %}
-{% endif %}
+
 {% endif %}
 <div class="container">
 {% block content %}

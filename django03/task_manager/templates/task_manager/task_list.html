@@ -51,7 +51,7 @@
                 <td class="{% if task.priority == 1 %}bg-primary p-2 text-dark bg-opacity-10{% elif task.priority == 2 %}bg-primary p-2 text-dark bg-opacity-25{% elif task.priority == 3 %}bg-primary p-2 text-dark bg-opacity-50{% elif task.priority == 4 %}bg-primary p-2 text-white bg-opacity-75{% endif %}">{{ task.get_priority_display }}</td>
                 <td><a href="{% url 'task_detail' task.pk %}">View</a></td>
                 {% comment %} <td><a href="{% url 'task_detail' task.pk %}">Update status</a></td> {% endcomment %}
-                <td><a href="{% url 'task_update' task.pk %}">Update task</a></td>   
+                <td><a href="{% url 'task_update' task.pk %}">Update</a></td>   
                 <td>{% if task.owner.username == user.username %}<a href="{% url 'task_delete' task.pk %}">Delete</a>{% endif %}</td> 
             </tr>
             {% comment %} {% endif %} {% endcomment %}
