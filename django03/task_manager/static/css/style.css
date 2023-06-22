@@ -1,0 +1,17 @@
+.task-form label {
+    font-weight: bold;
+    width: 100%
+}
+
+.task-form label[for="id_content"],
+.task-form label[for="id_note"] {
+  display: block;
+  font-weight: bold;
+}
+
+.task-form input[name="content"],
+.task-form textarea[name="note"] {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}

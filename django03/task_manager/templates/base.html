@@ -8,10 +8,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% trans "Task manager"|capfirst %}{% endblock title %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 {% if user.is_authenticated %}
@@ -52,12 +52,15 @@
     {% endfor %}
 {% endif %}
 {% endif %}
+<div class="container">
 {% block content %}
 {% endblock content %}</main>
+</div>
 <div class="row">
-<footer>
-    <div class="row">   
-        <p>&copy; Task manager. 2023
+    <footer>
+        <div class="row">   
+            <p>&copy; Task manager. 2023
+        </div>
     </footer>
 </div>
 </body>
