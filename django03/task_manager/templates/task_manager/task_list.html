@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         {% for count in task_counts %}
-        <div class="col">Tasks</br>{{ count.status_display }}</br>{{ count.count }}</div>
+        <div class="col p-3 mb-2 bg-info text-dark">Tasks</br>{{ count.status_display }}</br>{{ count.count }}</div>
         {% endfor %}
     </div>
     {% comment %} {% if self.request.user.is_staff or self.request.user.is_superuser %} {% endcomment %}
@@ -47,7 +47,9 @@
                 <td>{{ task.start }}</td>
                 <td>{{ task.finish }}</td>
                 <td>{{ task.is_overdue }}</td>
-                <td>{{ task.get_priority_display }}</td>
+                {% comment %} <td>{{ task.get_priority_display }}</td> {% endcomment %}
+                <td class="{% if task.priority == 1 %}bg-primary p-2 text-dark bg-opacity-10{% elif task.priority == 2 %}bg-primary p-2 text-dark bg-opacity-25{% elif task.priority == 3 %}bg-primary p-2 text-dark bg-opacity-50{% elif task.priority == 4 %}bg-primary p-2 text-white bg-opacity-75{% endif %}">{{ task.get_priority_display }}</td>
+
                 <td><a href="{% url 'task_detail' task.pk %}">View</a></td>
                 {% comment %} <td><a href="{% url 'task_detail' task.pk %}">Update status</a></td> {% endcomment %}
                 <td><a href="{% url 'task_update' task.pk %}">Update task</a></td>   
