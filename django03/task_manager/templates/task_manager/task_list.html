@@ -8,9 +8,19 @@
 </div>
 <div class="row">
     {% for count in task_counts %}
-    <div class="col {% if count.status == 0 %}bg-secondary p-2 text-dark bg-opacity-10{% elif count.status == 1 %}bg-success p-2 text-dark bg-opacity-25{% elif count.status == 2 %}bg-primary p-2 text-dark bg-opacity-25{% elif count.status == 3 %}bg-danger p-2 text-dark bg-opacity-25{% elif count.status == 4 %}bg-success p-2 text-dark bg-opacity-50{% endif %}">Tasks</br>{{ count.status_display }}</br>{{ count.count }}</div>
-
-
+    <div class="col {% if count.status == 0 %}bg-secondary p-2 text-dark bg-opacity-10
+        {% elif count.status == 1 %}bg-success p-2 text-dark bg-opacity-25
+        {% elif count.status == 2 %}bg-primary p-2 text-dark bg-opacity-25
+        {% elif count.status == 3 %}bg-danger p-2 text-dark bg-opacity-25
+        {% elif count.status == 4 %}bg-success p-2 text-dark bg-opacity-50
+        {% endif %}">
+        {% if count.status == 0 %}&#9203;
+        {% elif count.status == 1 %}&rarrw;
+        {% elif count.status == 2 %}&#9940;
+        {% elif count.status == 3 %}&#10060;
+        {% elif count.status == 4 %}&#9989;{% endif %}
+        Tasks<br>{{ count.status_display }}<br>{{ count.count }}
+    </div>
     {% endfor %}
 </div>
 <div class="row">
@@ -50,10 +60,15 @@
                 <td>{{ task.is_overdue }}</td>
                 {% comment %} <td>{{ task.get_priority_display }}</td> {% endcomment %}
                 <td class="{% if task.priority == 1 %}bg-primary p-2 text-dark bg-opacity-10{% elif task.priority == 2 %}bg-primary p-2 text-dark bg-opacity-25{% elif task.priority == 3 %}bg-primary p-2 text-dark bg-opacity-50{% elif task.priority == 4 %}bg-primary p-2 text-white bg-opacity-75{% endif %}">{{ task.get_priority_display }}</td>
-                <td><a href="{% url 'task_detail' task.pk %}">View</a></td>
+                
+                <td class="no-underline-links">
+                    <a href="{% url 'task_detail' task.pk %}">&#128269;</a>
+                    <a href="{% url 'task_update' task.pk %}">&#128221;</a>
+                    {% if task.owner.username == user.username %}<a href="{% url 'task_delete' task.pk %}">&#10060;</a>{% endif %}
+                </td>
                 {% comment %} <td><a href="{% url 'task_detail' task.pk %}">Update status</a></td> {% endcomment %}
-                <td><a href="{% url 'task_update' task.pk %}">Update</a></td>   
-                <td>{% if task.owner.username == user.username %}<a href="{% url 'task_delete' task.pk %}">Delete</a>{% endif %}</td> 
+                {% comment %} <td><a href="{% url 'task_update' task.pk %}">&#128221;</a></td>   
+                <td>{% if task.owner.username == user.username %}<a href="{% url 'task_delete' task.pk %}">&#10060;</a>{% endif %}</td>  {% endcomment %}
             </tr>
             {% comment %} {% endif %} {% endcomment %}
         {% endfor %}

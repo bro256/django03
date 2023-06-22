@@ -15,3 +15,7 @@
   box-sizing: border-box;
   margin-bottom: 10px;
 }
+
+.no-underline-links a {
+  text-decoration: none;
+}
