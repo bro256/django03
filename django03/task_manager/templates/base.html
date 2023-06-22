@@ -15,37 +15,36 @@
 </head>
 <body>
 {% if user.is_authenticated %}
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link" href="{% url 'index' %}">{% trans "home"|capfirst %}</a>
-                    <a class="nav-link" href="{% url 'task_list' %}">{% trans "Task management"|capfirst %}</a>
-                    {% if user.is_staff or user.is_superuser %}
-                        <a class="nav-link" href="{% url 'admin:index' %}">{% trans "admin"|capfirst %}</a>
-                    {% endif %}
-                </div>
-                <div class="navbar-nav ms-auto">
-                    <div class="align-self-center">You are logged in as: {{ user.username }}</div>
-                    <a class="nav-link" href="{% url 'logout' %}">{% trans "logout"|capfirst %}</a>
-                </div>
-            </div> 
-            {% comment %} <form action="{% url 'set_language' %}" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="next" value="{{ redirect_to }}">
-                <select name="language" onchange="this.form.submit();">
-                    {% for lang in LANGUAGES %}
-                        <option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %}selected{% endif %}>
-                            {{ lang.1 }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </form> {% endcomment %}
-        </div>
-    </nav>
-
-</header>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link" href="{% url 'index' %}">{% trans "home"|capfirst %}</a>
+                        <a class="nav-link" href="{% url 'task_list' %}">{% trans "Task management"|capfirst %}</a>
+                        {% if user.is_staff or user.is_superuser %}
+                            <a class="nav-link" href="{% url 'admin:index' %}">{% trans "admin"|capfirst %}</a>
+                        {% endif %}
+                    </div>
+                    <div class="navbar-nav ms-auto">
+                        <div class="align-self-center">You are logged in as: {{ user.username }}</div>
+                        <a class="nav-link" href="{% url 'logout' %}">{% trans "logout"|capfirst %}</a>
+                    </div>
+                </div> 
+                {% comment %} <form action="{% url 'set_language' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ redirect_to }}">
+                    <select name="language" onchange="this.form.submit();">
+                        {% for lang in LANGUAGES %}
+                            <option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %}selected{% endif %}>
+                                {{ lang.1 }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form> {% endcomment %}
+            </div>
+        </nav>
+    </header>
 <main>
 {% if messages %}
     {% for message in messages %}
@@ -55,6 +54,11 @@
 {% endif %}
 {% block content %}
 {% endblock content %}</main>
-<footer><p>&copy; Task manager. 2023</footer>
+<div class="row">
+<footer>
+    <div class="row">   
+        <p>&copy; Task manager. 2023
+    </footer>
+</div>
 </body>
 </html>

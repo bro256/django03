@@ -4,92 +4,99 @@
 {% block content %}
 {% comment %} {% if task.owner.username == user.username%} {% endcomment %}
 {% comment %} {% if task.owner.username == user.username or user in task.assignee.all %} {% endcomment %}
+<div class="container">
 {% if task.owner.username == user.username or task.assignee.username == user.username %}
-<h1>Task details</h1>
-<table>
-    <tr>
-        <td>Task ID:</td>
-        <td>{{ task.id }}</td>
-    </tr>
-        <td>Task:</td>
-        <td>{{ task.content }}</td>
-    </tr>
-    </tr>
-        <td>Task notes:</td>
-        <td>{{ task.note }}</td>
-    </tr>
-    <tr>
-        <td>Manager:</td>
-        <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>
-    </tr>
-    <tr>
-        <td>Manager email:</td>
-        <td>{{ task.owner.email }}</td>
-    </tr>
-    {% comment %} <tr>
-        <td>Assignees:</td>
-        <td>{% for assignee in task.assignee.all %} {{ assignee.first_name }} {{ assignee.last_name }}</br> {% endfor %}</td>
-    </tr> {% endcomment %}
-    <tr>
-        <td>Assignee:</td>
-        <td> {{ assignee.first_name }} {{ assignee.last_name }}</td>
-    </tr>
-    {% comment %} <tr>
-        <td>Assignee emails:</td>
-        <td>{% for assignee in task.assignee.all %} {{ assignee.email }}</br> {% endfor %}</td>
-    </tr>
-    <tr> {% endcomment %}
-        <td>Assignee email:</td>
-        <td>{{ assignee.email }}</td>
-    </tr>
-    <tr>
-        <td>Status:</td>
-        <td>{{ task.get_status_display }}</td>
-    </tr>
-    <tr>
-        <td>Start:</td>
-        <td>{{ task.start }}</td>
-    </tr>
-    <tr>
-        <td>Finish:</td>
-        <td>{{ task.finish }}</td>
-    </tr>
-    <tr>
-        <td>Priority:</td>
-        <td>{{ task.get_priority_display }}</td>
-    <tr>
-    </tr>
-        <td>Created by:</td>
-        <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>
-    </tr>
-    <tr>
-        <td>Created at:</td>
-        <td>{{ task.created_at }} (GMT)</td>
-    </tr>
-    <tr>
-        <td>Last updated at:</td>
-        <td>{{ task.updated_at }} (GMT)</td>
-    </tr>
-</table>
-
-<h2>Comments</h2>
+    <div class="row">
+        <h1>Task details</h1>
+    </div>
+    <table class="table table-stripped">
+        <tr>
+            <td>Task ID:</td>
+            <td>{{ task.id }}</td>
+        </tr>
+            <td>Task:</td>
+            <td>{{ task.content }}</td>
+        </tr>
+        </tr>
+            <td>Task notes:</td>
+            <td>{{ task.note }}</td>
+        </tr>
+        <tr>
+            <td>Manager:</td>
+            <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>
+        </tr>
+        <tr>
+            <td>Manager email:</td>
+            <td>{{ task.owner.email }}</td>
+        </tr>
+        {% comment %} <tr>
+            <td>Assignees:</td>
+            <td>{% for assignee in task.assignee.all %} {{ assignee.first_name }} {{ assignee.last_name }}</br> {% endfor %}</td>
+        </tr> {% endcomment %}
+        <tr>
+            <td>Assignee:</td>
+            <td> {{ task.assignee.first_name }} {{ task.assignee.last_name }}</td>
+        </tr>
+        {% comment %} <tr>
+            <td>Assignee emails:</td>
+            <td>{% for assignee in task.assignee.all %} {{ assignee.email }}</br> {% endfor %}</td>
+        </tr>
+        <tr> {% endcomment %}
+            <td>Assignee email:</td>
+            <td>{{ task.assignee.email }}</td>
+        </tr>
+        <tr>
+            <td>Status:</td>
+            <td>{{ task.get_status_display }}</td>
+        </tr>
+        <tr>
+            <td>Start:</td>
+            <td>{{ task.start }}</td>
+        </tr>
+        <tr>
+            <td>Finish:</td>
+            <td>{{ task.finish }}</td>
+        </tr>
+        <tr>
+            <td>Priority:</td>
+            <td>{{ task.get_priority_display }}</td>
+        <tr>
+        </tr>
+            <td>Created by:</td>
+            <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>
+        </tr>
+        <tr>
+            <td>Created at:</td>
+            <td>{{ task.created_at }} (GMT)</td>
+        </tr>
+        <tr>
+            <td>Last updated at:</td>
+            <td>{{ task.updated_at }} (GMT)</td>
+        </tr>
+    </table>
+    <div class="row">
+        <h2>Comments</h3>
+    <div class="row">
     <form method="post" action="{{ request.path }}">
-    <h3>Leave your comment</h3>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Post</button>
+        <div class="row">
+            <p>Leave your comment</p>
+        </div>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Post comment</button>
     </form>
-{% if task.comments.count > 0 %}
-    <ul>
-        {% for comment in task.comments.all %}
-            <li>{{ comment.commented_at }} by {{ comment.commenter }}<br>
-                {{ comment.content }}
-            </li>
-        {% endfor %}
-    </ul>
-{% endif %}
+    {% if task.comments.count > 0 %}
+        <ul>
+            {% for comment in task.comments.all %}
+                <li>{{ comment.commented_at }} by {{ comment.commenter }}<br>
+                    {{ comment.content }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
-{% else %}
-<p>You have no access to view this task</p>
-{% endif %}
+    {% else %}
+    <p>You have no access to view this task</p>
+    {% endif %}
+</div>
 {% endblock content %}
