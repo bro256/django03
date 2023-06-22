@@ -102,7 +102,7 @@ class Task(models.Model):
 
     @property
     def is_overdue(self):
-        if self.finish and date.today() > self.finish:
+        if self.finish and date.today() > self.finish and self.status < 2:
             return True
         return False
 
