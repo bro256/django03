@@ -81,7 +81,9 @@
         <p>Leave your comment</p>
     </div>
     {% csrf_token %}
-    {{ form.as_p }}
+    <div class="task-form">
+        {{ form.as_p }}
+    </div>
     <button type="submit">Post comment</button>
 </form>
 {% if task.comments.count > 0 %}
