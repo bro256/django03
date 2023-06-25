@@ -1,5 +1,5 @@
 from datetime import date, timedelta
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 from typing import Any
 from django import forms
 from django.contrib import messages
@@ -12,22 +12,19 @@ from django.shortcuts import render, get_object_or_404, reverse
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from . forms import TaskForm
-from . models import Task, TaskComment
+from . models import Task
 from . forms import TaskCommentForm
 from django.db.models import Count
 
 
 def index(request):
     num_tasks = Task.objects.all().count()
-    num_tasks_not_tarted = Task.objects.filter(status__exact=0).count
-
-    # To dictionary
+    num_tasks_not_started = Task.objects.filter(status__exact=0).count
     context = {
         'num_tasks' : num_tasks,
-        'num_tasks_not_tarted' : num_tasks_not_tarted,
     }
-
     return render(request, 'task_manager/index.html', context)
+
 
 class TaskListView(generic.ListView):
     model = Task
@@ -52,15 +49,6 @@ class TaskListView(generic.ListView):
             count['status_display'] = Task.STATUS_CHOICES[count['status']][1]
         context['task_counts'] = task_counts
         return context
-
-class UserTaskListView(generic.ListView):
-    model = Task
-    paginate_by = 3
-    template_name = "task_manager/user_task_list.html"
-
-    def get_queryset(self):
-        user = self.request.user
-        return Task.objects.filter(assignee__username=user.username)
 
 
 class TaskDetailView(generic.edit.FormMixin, generic.DetailView):
@@ -142,16 +130,13 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
-
         if self.object.owner == self.request.user and not self.request.user.is_superuser:
             form.fields['assignee'].widget = forms.HiddenInput()
-
         elif self.object.owner != self.request.user and not self.request.user.is_superuser:
             # If user is superuser, exclude all fields except "status"
             for field_name in form.fields:
                 if field_name != 'status':
                     form.fields[field_name].widget = forms.HiddenInput()
-
         return form
     
     def form_valid(self, form):
@@ -165,13 +150,7 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
             return True
         else:
             return False
-            # for assignee in obj.assignee.all():
-            #     if assignee == self.request.user:
-            #         return True
-            #     else:
-            #         return False
 
-        # return obj.owner == self.request.user
 
 class TaskDeleteView(
     LoginRequiredMixin,

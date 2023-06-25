@@ -1,8 +1,10 @@
 from django import forms
 from . import models
 
+
 class DateInput(forms.DateInput):
     input_type = 'date'
+
 
 class TaskForm(forms.ModelForm):
     class Meta:
@@ -13,6 +15,7 @@ class TaskForm(forms.ModelForm):
             'start' : DateInput(),
             'finish' : DateInput(),
         }
+
 
 class TaskCommentForm(forms.ModelForm):
     class Meta:

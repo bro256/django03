@@ -4,34 +4,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 
+
 User = get_user_model()
-
-# class Priority(models.Model):
-#     content = models.CharField(_('content'), max_length=100, null=True, blank=True)
-
-#     class Meta:
-#         verbose_name = _("priority")
-#         verbose_name_plural = _("priorities")
-
-#     def __str__(self):
-#         return self.name
-
-#     def get_absolute_url(self):
-#         return reverse("priority_detail", kwargs={"pk": self.pk})
-    
-
-# class Status(models.Model):
-#     content = models.CharField(_('content'), max_length=50)
-
-#     class Meta:
-#         verbose_name = _("status")
-#         verbose_name_plural = _("statuses")
-
-#     def __str__(self):
-#         return self.name
-
-#     def get_absolute_url(self):
-#         return reverse("status_detail", kwargs={"pk": self.pk})
 
 
 class Task(models.Model):
@@ -46,7 +20,6 @@ class Task(models.Model):
         related_name='owner_tasks',
         null=True, blank=True,
     )
-    # assignee = models.ManyToManyField(User, related_name='assignee_tasks')
     assignee = models.ForeignKey(
         User,
         verbose_name=_("assignee"),
@@ -54,21 +27,6 @@ class Task(models.Model):
         related_name='assignee_tasks',
         null=True, blank=True,
     )
-    # priority = models.ForeignKey(
-    #     Priority,
-    #     verbose_name=_("priority"),
-    #     on_delete=models.CASCADE,
-    #     related_name='tasks',
-    #     null=True, blank=True,
-    # )
-    # status = models.ForeignKey(
-    #     Status,
-    #     verbose_name=_('status'),
-    #     on_delete=models.CASCADE,
-    #     related_name='tasks',
-    #     null=True, blank=True,
-    # )
-
     PRIORITY_CHOICES = (
         (1, _('Low')),
         (2, _('Medium')),
@@ -81,7 +39,6 @@ class Task(models.Model):
         default=2,
         db_index=True,
     )
-
     STATUS_CHOICES = (
         (0, _('Not started')),
         (1, _('In progess')),

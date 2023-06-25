@@ -2,17 +2,17 @@
 {% load static %}
 {% block title %} {{ block.super }} {% endblock title %}
 {% block content %}
-{% if task.id %}
-    <h1>Update task</h1>
-    <p>Task: {{ task.content }}</p>
-{% else %}
-    <h1>New task</h1>
-{% endif %}
-<form method = "post" action="{{ request.path }}?task_id={{ task.id }}">
-    {% csrf_token %}
-    <div class="task-form">
-        {{ form.as_p }}
-    </div>
-    <button type="submit">Confirm</button>
-</form>
+    {% if task.id %}
+        <h1>Update task</h1>
+        <p>Task: {{ task.content }}</p>
+    {% else %}
+        <h1>New task</h1>
+    {% endif %}
+    <form method = "post" action="{{ request.path }}?task_id={{ task.id }}">
+        {% csrf_token %}
+        <div class="task-form">
+            {{ form.as_p }}
+        </div>
+        <button type="submit">Confirm</button>
+    </form>
 {% endblock content %}

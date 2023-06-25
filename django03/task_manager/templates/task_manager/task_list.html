@@ -2,70 +2,65 @@
 {% load static %}
 {% block title %} {{ block.super }} {% endblock title %}
 {% block content %}
-
-<div class="row">
-    <h1>Task Management</h1>
-</div>
-<div class="row">
-    {% for count in task_counts %}
-    <div class="col {% if count.status == 0 %}bg-secondary p-2 text-dark bg-opacity-10
-        {% elif count.status == 1 %}bg-success p-2 text-dark bg-opacity-25
-        {% elif count.status == 2 %}bg-primary p-2 text-dark bg-opacity-25
-        {% elif count.status == 3 %}bg-danger p-2 text-dark bg-opacity-25
-        {% elif count.status == 4 %}bg-success p-2 text-dark bg-opacity-50
-        {% endif %}">Tasks<br>{{ count.status_display }}<br>{{ count.count }}
+    <div class="row">
+        <h1>Task Management</h1>
     </div>
-    {% endfor %}
-</div>
-<div class="row">
-    <p><a class="" href="{% url 'task_create' %}">Create new</a></p>
-</div>
-{% comment %} {% include 'includes/search.html' %} {% endcomment %}
-{% if task_list %}
-    {% include 'includes/paginator_nav.html' %}
-    <table class="table table-bordered">
-        <tr>
-            <th>ID</th>
-            <th>Task</th>
-            <th>Manager</th>
-            <th>Assignee</th>
-            <th>Status</th>                
-            <th>Start</th>
-            <th>Finish</th>
-            <th>Is overdue</th>
-            <th>Priority</th>
-            <th>Actions</th>
-        </tr>
-        {% for task in task_list %}
-            {% comment %} {% if task.owner.username == user.username %} {% endcomment %}
-            <tr>
-                <td>{{ task.id }}</td>
-                <td>{{ task.content }}</td>
-                {% comment %} <td>{{ task.assignee.all }}</td> {% endcomment %}
-                <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>  
-                {% comment %} <td>{% for assignee in task.assignee.all %} {{ assignee.first_name }} {{ assignee.last_name }}</br> {% endfor %}</td>     {% endcomment %}
-                <td>{{ task.assignee.first_name }} {{ task.assignee.last_name }}</td>
-                {% comment %} <td>{{ task.get_status_display }}</td>
-                <div class="my-div" style="background-color: {% if value == 'red' %}#ff0000{% elif value == 'blue' %}#0000ff{% else %}#ffffff{% endif %}">   {% endcomment %}
-                <td class="{% if task.status == 0 %}bg-secondary p-2 text-dark bg-opacity-10{% elif task.status == 1 %}bg-success p-2 text-dark bg-opacity-25{% elif task.status == 2 %}bg-primary p-2 text-dark bg-opacity-25{% elif task.status == 3 %}bg-danger p-2 text-dark bg-opacity-25{% elif task.status == 4 %}bg-success p-2 text-dark bg-opacity-50{% endif %}">{{ task.get_status_display }}</td>
-                <td>{{ task.start }}</td>
-                {% comment %} <td>{{ task.finish }}</td> {% endcomment %}
-                <td class="{% if task.is_overdue %}bg-danger p-2 text-dark bg-opacity-25{% endif %}">{{ task.finish }}</td>
-                <td>{{ task.is_overdue }}</td>
-                {% comment %} <td>{{ task.get_priority_display }}</td> {% endcomment %}
-                <td class="{% if task.priority == 1 %}bg-primary p-2 text-dark bg-opacity-10{% elif task.priority == 2 %}bg-primary p-2 text-dark bg-opacity-25{% elif task.priority == 3 %}bg-primary p-2 text-dark bg-opacity-50{% elif task.priority == 4 %}bg-primary p-2 text-white bg-opacity-75{% endif %}">{{ task.get_priority_display }}</td>
-                
-                <td class="no-underline-links">
-                    <a href="{% url 'task_detail' task.pk %}">&#128269;</a>
-                    <a href="{% url 'task_update' task.pk %}">&#128221;</a>
-                    {% if task.owner.username == user.username %}<a href="{% url 'task_delete' task.pk %}">&#10060;</a>{% endif %}
-                </td>
-                {% comment %} <td><a href="{% url 'task_detail' task.pk %}">Update status</a></td> {% endcomment %}
-                {% comment %} <td><a href="{% url 'task_update' task.pk %}">&#128221;</a></td>   
-                <td>{% if task.owner.username == user.username %}<a href="{% url 'task_delete' task.pk %}">&#10060;</a>{% endif %}</td>  {% endcomment %}
-            </tr>
-            {% comment %} {% endif %} {% endcomment %}
+    <div class="row">
+        {% for count in task_counts %}
+        <div class="col {% if count.status == 0 %}bg-secondary p-2 text-dark bg-opacity-10
+            {% elif count.status == 1 %}bg-success p-2 text-dark bg-opacity-25
+            {% elif count.status == 2 %}bg-primary p-2 text-dark bg-opacity-25
+            {% elif count.status == 3 %}bg-danger p-2 text-dark bg-opacity-25
+            {% elif count.status == 4 %}bg-success p-2 text-dark bg-opacity-50
+            {% endif %}">Tasks<br>{{ count.status_display }}<br>{{ count.count }}
+        </div>
         {% endfor %}
-    </table>
-{% endif %}
+    </div>
+    <div class="row">
+        <p><a class="" href="{% url 'task_create' %}">Create new</a></p>
+    </div>
+    {% if task_list %}
+        {% include 'includes/paginator_nav.html' %}
+        <table class="table table-bordered">
+            <tr>
+                <th>ID</th>
+                <th>Task</th>
+                <th>Manager</th>
+                <th>Assignee</th>
+                <th>Status</th>                
+                <th>Start</th>
+                <th>Finish</th>
+                <th>Is overdue</th>
+                <th>Priority</th>
+                <th>Actions</th>
+            </tr>
+            {% for task in task_list %}
+                <tr>
+                    <td>{{ task.id }}</td>
+                    <td>{{ task.content }}</td>
+                    <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>  
+                    <td>{{ task.assignee.first_name }} {{ task.assignee.last_name }}</td>
+                    <td class="{% if task.status == 0 %}bg-secondary p-2 text-dark bg-opacity-10
+                        {% elif task.status == 1 %}bg-success p-2 text-dark bg-opacity-25
+                        {% elif task.status == 2 %}bg-primary p-2 text-dark bg-opacity-25
+                        {% elif task.status == 3 %}bg-danger p-2 text-dark bg-opacity-25
+                        {% elif task.status == 4 %}bg-success p-2 text-dark bg-opacity-50
+                        {% endif %}">{{ task.get_status_display }}</td>
+                    <td>{{ task.start }}</td>
+                    <td class="{% if task.is_overdue %}bg-danger p-2 text-dark bg-opacity-25{% endif %}">{{ task.finish }}</td>
+                    <td>{{ task.is_overdue }}</td>
+                    <td class="{% if task.priority == 1 %}bg-primary p-2 text-dark bg-opacity-10
+                        {% elif task.priority == 2 %}bg-primary p-2 text-dark bg-opacity-25
+                        {% elif task.priority == 3 %}bg-primary p-2 text-dark bg-opacity-50
+                        {% elif task.priority == 4 %}bg-primary p-2 text-white bg-opacity-75
+                        {% endif %}">{{ task.get_priority_display }}</td>  
+                    <td class="no-underline-links">
+                        <a href="{% url 'task_detail' task.pk %}">&#128269;</a>
+                        <a href="{% url 'task_update' task.pk %}">&#128221;</a>
+                        {% if task.owner.username == user.username %}<a href="{% url 'task_delete' task.pk %}">&#10060;</a>{% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
 {% endblock content %}
