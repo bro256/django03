@@ -54,11 +54,13 @@
                         {% elif task.priority == 3 %}bg-primary p-2 text-dark bg-opacity-50
                         {% elif task.priority == 4 %}bg-primary p-2 text-white bg-opacity-75
                         {% endif %}">{{ task.get_priority_display }}</td>  
-                    <td class="no-underline-links">
-                        <a href="{% url 'task_detail' task.pk %}">&#128269;</a>
-                        <a href="{% url 'task_update' task.pk %}">&#128221;</a>
-                        {% if task.owner.username == user.username %}<a href="{% url 'task_delete' task.pk %}">&#10060;</a>{% endif %}
-                    </td>
+                        <td>
+                            <a href="{% url 'task_detail' task.pk %}" style="text-decoration: none;">&#128269;</a>
+                            <a href="{% url 'task_update' task.pk %}" style="text-decoration: none;">&#128221;</a>
+                            {% if task.owner.username == user.username %}
+                                <a href="{% url 'task_delete' task.pk %}" style="text-decoration: none;">&#10060;</a>
+                            {% endif %}
+                        </td>
                 </tr>
             {% endfor %}
         </table>
